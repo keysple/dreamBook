@@ -5,8 +5,8 @@
         <mu-flat-button slot="right" label="关闭" color="white" @click="close()"/>
       </mu-appbar>
       <mu-content-block>
-        <h3>你推荐的书是 <span>《{{bookMes.name}}》</span></h3>
-        <h3 >选择推荐用户</h3><span>{{usersName}}</span>
+        <h3>你推荐的书是 <span>《{{book.name}}》</span></h3>
+        <h3>选择推荐用户</h3>
         <div style="margin-left: 18px;display: inline">
           <mu-float-button icon="add" mini class="demo-float-button" @click="chooseDep"/>
         </div>
@@ -15,7 +15,7 @@
                        @textOverflow="handleMultiLineOverflow" multiLine :rows="3" :rowsMax="6" :maxLength="100"
                        fullWidth="" icon="comment"/>
         <br/>
-        <mu-raised-button label="Ding出去" class="clickButton" @click="postDing" primary/>
+        <mu-raised-button label="Ding出去" id="ding" class="clickButton" @click="postDing" primary/>
       </mu-content-block>
     </mu-popup>
   </div>
@@ -25,16 +25,13 @@
   export default {
     name: 'dingPopUp',
     props: {
-      book: Array
+      book: Object
     },
     data () {
       return {
         bottomPopup: false,
         value: '',
         recMes: '',
-        bookMes: this.book,
-        usersId: [],
-        usersName: [],
       }
     },
     methods: {
@@ -49,24 +46,34 @@
       },
       chooseDep(){
         dingweb.getAuth().then(function (response) {
-          dingweb.getDepartments().then(function (result) {
-              alert(result.users[0].name);
-            var userIdList ;
-            var userNameList ;
-  /*          for (let i = 0; i < result.selectedCount; i++) {
-              userIdList.push(result.users[i].emplId);
-              userNameList.push(result.users[i].name);
+          var corpId = response.data.corpId;
+          dingweb.getDepartments(corpId).then(function (result) {
+            var users = [];
+            for (var i = 0; i < result.users.length; i++) {
+              users.push(result.users[i].emplId);
             }
-            this.$set(this, 'usersId', userIdList);
-            this.$set(this, 'usersName', userNameList);*/
+            document.getElementById('ding').addEventListener("click", this.postDing(users, corpId), false);
           })
         })
       },
-      postDing(){
-        const self = this;
-        alert(self.users);
-        var user = self.users;
+      postDing(users){
         dingweb.POSTDing(users);
+        var Config = {
+          method: "post",
+          url: Host + '/app/recommend',
+          data: {
+            /*userid: this.$store.state.userinfo[0].userid,*/
+            userid:'091208124330965749',
+            bookid: this.book.bookid,
+            msg: this.recMes,
+            userids: users
+          },
+        };
+        this.$ajax(Config).then(function (response) {
+
+        }).catch(function (error) {
+
+        })
       }
     },
   }

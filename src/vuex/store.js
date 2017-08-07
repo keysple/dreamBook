@@ -21,7 +21,6 @@ const store = new Vuex.Store({
   actions :{
     addInfo(context,info){
       context.commit("ADDINFO",info);
-      alert('success actions')
     }
   }
 })

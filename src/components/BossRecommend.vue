@@ -1,7 +1,13 @@
 <template>
   <div>
     <mu-card v-for="recommend, index in recommendList" :key="index">
-      <user-mes :userMesAPI=usermesapi></user-mes>
+      <mu-flexbox >
+        <mu-flexbox-item>
+          <mu-card-header class="mt8" :title="recommend.bossName"><!--少添加了subtitle-->
+            <mu-avatar slot="avatar" :src="recommend.bossAvatar"></mu-avatar>
+          </mu-card-header>
+        </mu-flexbox-item>
+      </mu-flexbox>
       <mu-card-text class="bookText">
         <span>{{recommend.msg}}</span>
         <div class="bookCard" @click="toBookMes(recommend.bookId)">
@@ -24,30 +30,24 @@
     data(){
       return {
         recommendList: [],
-        usermesapi: 'app/getUser?userId=1',
-        userid: this.$store.state.userinfo[0].userid,
         userType: '',
         bookCover: Host + Static
       }
     },
     mounted: function () {
       this.getRecommendList();
-      this.isBoss();
     },
     methods: {
-      isBoss(){
-        if (this.$store.state.userinfo[0].isAdmin) {
-          this.userType = boss;
-        }
-        else {
-          this.userType = employee;
-        }
-      },
       getRecommendList(){
+          var usertype='employee';
+        /*     if(this.$store.state.userinfo[0].isAdmin){
+         usertype='boss';
+         }*/
         this.$ajax.get(Host + '/app/recommend', {
           params: {
-            userid: this.userid,
-            userType: this.userType,
+          /*  userid: this.$store.state.userinfo[0].userid,*/
+          userid:'091208124330965749',
+            userType: usertype,
           }
         }).then(
           response => {
@@ -99,10 +99,13 @@
   .bookText {
     font-size: 18px;
     text-align: left;
-    margin-left: 10%
   }
 
   . demo-flat-button {
     float: right;
+  }
+
+  .mt8 {
+ padding: 18px 0 0 18px ;
   }
 </style>

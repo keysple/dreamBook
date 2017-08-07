@@ -10,7 +10,6 @@
     </mu-appbar>
     <div v-for="(workmate,index) in workMate" :key="index">
       <mu-card>
-        <!--  <user-mes :userMesAPI="usermesapi"></user-mes>-->
         <mu-flexbox class="mt8">
           <mu-flexbox-item>
             <mu-card-header :title="workmate.name" ><!--少添加了subtitle-->
@@ -37,9 +36,8 @@
       return {
         workmateBook: [],
         workMate: [], /*同部门同事的userid列表*/
-        /*usermesapi: 'app/getUser?userId=1',*/
         userid:this.$store.state.userinfo[0].userid,
-        departmentid:'26891226',
+        departmentid:this.$store.state.userinfo[0].department[0],
       }
     },
     mounted: function () {

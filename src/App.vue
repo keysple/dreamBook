@@ -33,17 +33,6 @@
     mounted(){
       //判断cookie的值
       var corpid, uid;
-      /*        var arr = document.cookie.split(';');
-       var reg1 = new RegExp('corpId=?(.*)$');
-       var reg2 = new RegExp('userid=?(.*)$');
-       if (arr[0].match(reg1)) {
-       uid = arr[1].match(reg2)[1];
-       corpid= arr[0].match(reg1)[1];
-       }
-       else {
-       uid = arr[0].match(reg2)[1];
-       corpid= arr[1].match(reg1)[1];
-       }*/
       uid = document.cookie.split('userid=')[1];
       //判断cookie是否存在userid
       if (uid) {
@@ -61,7 +50,6 @@
       },
       AuthConfig(){
         const self = this;
-       /* dingWEB.getAuth();*/
           dingWEB.authCode().then(function (result) {
             const code = result.code;
             dingWEB.getUserId(code).then(function (response) {

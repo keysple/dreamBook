@@ -9,14 +9,14 @@
             <div>{{comment.content}}</div>
           </td>
           <td>
-            <mu-flat-button label="回复" class="demo-flat-button" primary @click="openpop"/>
-            <popcontent ref="replyPop"></popcontent>
+            <mu-flat-button label="回复"  class="demo-flat-button" primary @click="openPop(index)"/>
+            <popcontent ref="commentid" :reply="comment.commentid" :Mes="bookId"></popcontent>
           </td>
         </tr>
       </table>
       <!--reply-->
       <div v-for="replyComment in comment"  class="comment">
-        <div v-if="replyComment.reply==1">
+        <div v-if="replyComment.reply">
           <table style="margin-left: 20%; margin-top: 10px">
             <tr>
               <td class="commentUser">{{replyComment.reviewer}}</td>
@@ -53,8 +53,8 @@
       this.getCommentList();
     },
     methods: {
-      openpop(){
-        this.$refs.replyPop.open()
+      openPop(id){
+        this.$refs.commentid[id].open()
       },
       getCommentList(){
         this.$ajax.get(Host+'/app/book/comment',{

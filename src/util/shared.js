@@ -1,7 +1,6 @@
 export function authCode(corpId){
   return new Promise(function(resolve, reject){
     dd.ready(function(){
-      alert('dd.ready')
       dd.runtime.permission.requestAuthCode({
         corpId: corpId,
         onSuccess: function(result) {

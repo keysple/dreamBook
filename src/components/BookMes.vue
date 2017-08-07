@@ -19,7 +19,7 @@
         <mu-divider/>
         <mu-card-text>
           {{ BookMes.introduction }}
-      <!--    {{this.$store.state.userinfo[0].department}}-->
+          <!--    {{this.$store.state.userinfo[0].department}}-->
         </mu-card-text>
       </mu-flexbox-item>
       <mu-flexbox-item order="1" class="mt8">
@@ -31,7 +31,8 @@
         <mu-card-actions>
           <mu-raised-button label="加入书架" @click="addBookCase" class="demo-raised-button" primary/>
           <mu-raised-button label="马上阅读" @click="toPdf" class="demo-raised-button" primary/>
-          <vueshowpdf @closepdf="closepdf" v-model="isshowpdf" :pdfurl="pdfurls" @pdferr="pdferr" :maxscale='4' :minscale='0.6' :scale='1.1' ></vueshowpdf>
+          <vueshowpdf @closepdf="closepdf" v-model="isshowpdf" :pdfurl="pdfurls" @pdferr="pdferr" :maxscale='4'
+                      :minscale='0.6' :scale='1.1'></vueshowpdf>
         </mu-card-actions>
       </mu-flexbox-item>
       <mu-flexbox-item order="3" class="mt8">
@@ -41,8 +42,8 @@
         </mu-icon-button>
         <mu-divider/>
         <mu-card-text>
-          <book-comments ref="comments" :bookid="bookId"></book-comments>
-          <popcontent ref="pop" class="popcontent"></popcontent>
+          <book-comments  :bookid="bookId"></book-comments>
+          <popcontent ref="popOfReply" :Mes="BookMes.bookid"></popcontent>
         </mu-card-text>
       </mu-flexbox-item>
     </mu-flexbox>
@@ -54,7 +55,7 @@
   import Popcontent from "./popContent";
   import DingPopUp from "./dingPoP";
   import vueshowpdf from 'vueshowpdf'
-  import {Host,Static} from '../util/host'
+  import {Host, Static} from '../util/host'
   export default {
     components: {
       DingPopUp,
@@ -87,14 +88,13 @@
         console.log(errurl);
       },
       getBookMesById: function () {
-        this.$ajax.get(Host+'/app/book', {
+        this.$ajax.get(Host + '/app/book', {
           params: {
-               bookId: this.bookId
-           /* bookId: 1*/
+            bookId: this.bookId
           }
         }).then(response => {
-             var result = JSON.stringify(response.data.bookInfo);
-             console.log(result)
+            var result = JSON.stringify(response.data.bookInfo);
+            console.log(result)
             this.$set(this, 'BookMes', response.data.bookInfo[0])
           }, response => {
             console.log(response)
@@ -105,21 +105,25 @@
         this.$router.push({name: 'ChapterList', params: {bookid: bookid}})
       },
       openPop(){
-        this.$refs.pop.open()
+        this.$refs.popOfReply.open()
       },
       popDing(){
         this.$refs.popDing.open()
       },
       addBookCase(){
-        axios.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
-        this.$ajax.put(Host+'/test2', {
-              a: '091208124330965749',
-             /* b: this.bookId,*/
-        }).then(response => {
-          }, response => {
-            alert('加入失败！')
-          }
-        )
+        var Config = {
+          method: "put",
+          url: Host + '/app/bookshelf',
+          params: {
+            bookid:this.bookId,
+            userid:'091208124330965749'
+          },
+        };
+        this.$ajax(Config).then(function (response) {
+          console.log(response.data)
+        }).catch(function (error) {
+
+        });
         this.Dialog = true;
       },
       toArticle(bookid, catalogid){

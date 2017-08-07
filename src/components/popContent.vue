@@ -13,8 +13,13 @@
   </div>
 </template>
 <script>
+  import {Host, Static} from '../util/host'
   export default{
     name: 'popcontent',
+    props: {
+      Mes: String,
+      reply: String,
+    },
     data(){
       return {
         bottomPopup: false,
@@ -33,24 +38,32 @@
         this.multiLineInputErrorText = isOverflow ? '超过啦！！！！' : ''
       },
       postComment(){
-        var content = this.content;
-        this.$ajax.post('app/postcomments', {
-         bookid: '',
-         content: content,
-         }).then(response => {
-            console.log('回复内容是：'+content)
-          this.close()
+        var Config = {
+          method: "put",
+          url: Host + '/app/book/comment',
+          params: {
+            bookid: this.Mes,
+            /* reviewer: this.$store.state.userinfo[0].name,*/
+            reviewer: 'bbb',
+            content: this.content,
+            reply: this.reply,
           },
-          response => {
-            console.log('rrrrrr')
-          }
-        )
+        };
+        if (Config.params.content === '') {
+          alert('留言为空！')
+        }
+        else {
+          this.$ajax(Config).then(function (response) {
+            this.bottomPopup = false
+          }).catch(function (error) {
+            console.log(JSON.stringify(error))
+          });
+        }
       },
     }
   }
 </script>
 <style>
-
   .demo-popup-bottom {
     width: 100%;
   }

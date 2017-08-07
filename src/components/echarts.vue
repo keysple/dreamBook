@@ -18,8 +18,6 @@
         readNums: [],
         readFavor: [],
         readType: [],
- /*       userid: this.$store.state.userinfo[0].userid,
-        departmentId: this.$store.userinfo[0].department*/
       }
     },
     mounted: function () {
@@ -77,10 +75,8 @@
         });
         this.$ajax.get(Host + '/app/statistics', {
           params: {
-            userid: '091208124330965749',
-            departmentId: '26891226'
-            /*   userid:this.userid,
-             departmentId:this.departmentId*/
+            userid:this.$store.state.userinfo[0].userid,
+            departmentId:this.$store.state.userinfo[0].department[0],
           }
         }).then(
           response => {

@@ -9,7 +9,7 @@
             <img :src="bookCover+tile.cover"/>
             <span slot="title" v-show="titleChip">{{tile.name}}</span>
             <span slot="deleteChip" v-show="deleteChip">
-               <mu-chip class="demo-chip" :name="tile.bookid" @delete="handleDelete" showDelete>
+               <mu-chip class="demo-chip" :name="tile.bookid" @delete="handleDelete(tile)" showDelete>
                    删除
             </mu-chip>
            </span>
@@ -41,8 +41,8 @@
       changeRoute(bookid){
         this.$router.push({name: 'BookMes', params: {id: bookid}})
       },
-      handleDelete(){
-        this.$emit('delete');
+      handleDelete(book){
+        this.$emit('delete',book);
       }
     }
   }

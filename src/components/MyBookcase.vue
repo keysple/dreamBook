@@ -24,7 +24,7 @@
 <script>
   import BookGrid from "./bookGridList";
   import UserMes from "./UserMes";
-  import {Host,Static} from '../util/host';
+  import {Host, Static} from '../util/host';
   export default{
     components: {
       UserMes,
@@ -38,7 +38,6 @@
         IsHide: false,
         MyBook: [],
         usermesapi: this.$store.state.userinfo[0],
-        userid:this.$store.state.userinfo[0].userid
       }
     },
     mounted: function () {
@@ -56,9 +55,10 @@
       },
       showMyBookCase(){
         /*显示书架的书*/
-        this.$ajax.get(Host+'/app/bookshelf', {
+        this.$ajax.get(Host + '/app/bookshelf', {
           params: {
-            userid: this.userid,
+            /*         userid:this.$store.state.userinfo[0].userid,*/
+            userid: '091208124330965749'
           }
         }).then(response => {
             console.log(response.data);
@@ -68,18 +68,21 @@
           }
         )
       },
-      postDeleteBook(){
-        /*删除书架的书api*/
-        this.$ajax.post(Host+'/app/deletebookById', {
-            bookId: '1',
-            userId: '1'
-        }).then(function (res) {
-            alert('Success');
+      postDeleteBook(book){
+        var Config = {
+          method:"delete" ,
+          url: Host + '/app/bookshelf',
+          params: {
+            type: book.type,
+            bookshelfid: book.bookshelfid,
+          },
+        };
+        this.$ajax(Config).then(function (response) {
+           this.showMyBookCase();
+           this.$forceUpdate()
+        }).catch(function () {
+
         })
-          .catch(function (err) {
-            alert('Error ')
-            console.log(err);
-          });
       },
     }
   }
