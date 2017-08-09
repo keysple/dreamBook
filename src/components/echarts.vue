@@ -94,6 +94,23 @@
                 data: this.readNums
               }]
             })
+            /* if(this.readFavor.length>0){
+                var text =document.createTextNode('您还没有阅读记录，快去阅读吧！');
+                var h3 =document.createElement("h3");
+                h3.appendChild(text);
+             document.getElementById('readFavor').appendChild(h3);
+            }else {
+              readFavorCharts.setOption({
+                legend: {
+                  orient: 'vertical',
+                  x: 'right',
+                  data: this.readType
+                },
+                series: [{
+                  data: this.readFavor
+                }]
+              })
+            }*/
             readFavorCharts.setOption({
               legend: {
                 orient: 'vertical',

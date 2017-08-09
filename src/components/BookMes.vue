@@ -6,7 +6,7 @@
           <img :src="bookCover+BookMes.cover"/>
         </mu-paper>
         <mu-card-text class="demo-span"><span>{{BookMes.name}}</span><br/><span>{{BookMes.auth}}</span></mu-card-text>
-        <mu-flat-button label="Boss推荐" class="demo-flat-button mb10" primary @click="popDing">
+        <mu-flat-button label="Boss推荐" class="demo-flat-button mb10"  primary @click="popDing">
           <!--v-if="this.userinfo.isAdmin === true"-->
           <i class="material-icons">thumb_up</i>
         </mu-flat-button>
@@ -19,7 +19,6 @@
         <mu-divider/>
         <mu-card-text>
           {{ BookMes.introduction }}
-          <!--    {{this.$store.state.userinfo[0].department}}-->
         </mu-card-text>
       </mu-flexbox-item>
       <mu-flexbox-item order="1" class="mt8">
@@ -42,7 +41,7 @@
         </mu-icon-button>
         <mu-divider/>
         <mu-card-text>
-          <book-comments  :bookid="bookId"></book-comments>
+          <book-comments  :bookid="bookId" ></book-comments>
           <popcontent ref="popOfReply" :Mes="BookMes.bookid"></popcontent>
         </mu-card-text>
       </mu-flexbox-item>
@@ -50,7 +49,6 @@
   </div>
 </template>
 <script>
-  /* import data from '../util/mock';*/
   import BookComments from "./bookComments";
   import Popcontent from "./popContent";
   import DingPopUp from "./dingPoP";
@@ -115,14 +113,15 @@
           method: "put",
           url: Host + '/app/bookshelf',
           params: {
-            bookid:this.bookId,
-            userid:'091208124330965749'
+            bookid: this.bookId,
+            userid: '091208124330965749'
           },
         };
         this.$ajax(Config).then(function (response) {
-          console.log(response.data)
+          console.log(response.data);
+          alert('加入书架成功')
         }).catch(function (error) {
-
+            alert('加入书架失败，请查看书架是否已存在此书')
         });
         this.Dialog = true;
       },
@@ -134,7 +133,6 @@
       },
     }
   }
-
 </script>
 <style>
   .mt8 {
@@ -176,5 +174,4 @@
     height: 100%;
     top: 15px;
   }
-
 </style>

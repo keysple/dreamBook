@@ -42,8 +42,10 @@
     },
     mounted: function () {
       this.showMyBookCase();
-
     },
+    /*    updated:function () {
+     this.showMyBookCase();
+     },*/
     methods: {
       opendelete () {
         this.IsShow = false;
@@ -57,8 +59,8 @@
         /*显示书架的书*/
         this.$ajax.get(Host + '/app/bookshelf', {
           params: {
-            /*         userid:this.$store.state.userinfo[0].userid,*/
-            userid: '091208124330965749'
+              userid:this.$store.state.userinfo[0].userid,
+        /*    userid: '091208124330965749'*/
           }
         }).then(response => {
             console.log(response.data);
@@ -69,8 +71,9 @@
         )
       },
       postDeleteBook(book){
+        const self = this;
         var Config = {
-          method:"delete" ,
+          method: "delete",
           url: Host + '/app/bookshelf',
           params: {
             type: book.type,
@@ -78,10 +81,8 @@
           },
         };
         this.$ajax(Config).then(function (response) {
-           this.showMyBookCase();
-           this.$forceUpdate()
+              self.showMyBookCase();
         }).catch(function () {
-
         })
       },
     }

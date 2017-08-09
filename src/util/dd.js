@@ -3,7 +3,7 @@
  */
 import  axios from 'axios'
 axios.defaults.withCredentials = true;
-const GlobalHost = 'http://10.50.1.27/dingding';
+const GlobalHost = 'http://fj2ku9.natappfree.cc/dingding';
 var corpid;
 export function getAuth() {
   var configParams;
@@ -123,39 +123,22 @@ export function getDepartments(corpid) {
   })
 }
 export function POSTDing(users,corpId) {
-  return new Promise(function (resolve) {
+  return new Promise(function () {
     var date = (new Date()).Format("yyyy-MM-dd hh:mm");
     dd.ready(function () {
       dd.biz.ding.create({
-        users: users,// 用户列表，工号
+        users: [users],// 用户列表，工号
         corpId: corpId,
         type: 1,
         alertType: 2,
-        alertDate: date,
+        alertDate: {"format":"yyyy-MM-dd HH:mm","value":date},
         text: 'hello!!!!!Ding Test',
-        attachment: {
-          images: [''],
-        },
-        text: 'ddddddddddddddddddddddddddd',  // 正文
-        bizType :0, // 业务类型 0：通知DING；1：任务；2：会议；
-        confInfo:{
-          bizSubType:0, // 子业务类型如会议：0：预约会议；1：预约电话会议；2：预约视频会议；（注：目前只有会议才有子业务类型）
-          location:'某某会议室' , //会议地点；（非必填）
-          startTime:{"format":"yyyy-MM-dd HH:mm","value":"2015-05-09 08:00"},// 会议开始时间
-          endTime:{"format":"yyyy-MM-dd HH:mm","value":"2015-05-09 08:00"}, // 会议结束时间
-          remindMinutes:30, // 会前提醒。单位分钟-1：不提醒；0：事件发生时提醒；5：提前5分钟；15：提前15分钟；30：提前30分钟；60：提前1个小时；1440：提前一天；
-          remindType:2 // 会议提前提醒方式。0:电话, 1:短信, 2:应用内
-        },
-        taskInfo:{
-          ccUsers: ['100', '101'], // 抄送用户列表，工号
-          deadlineTime:{"format":"yyyy-MM-dd HH:mm","value":"2015-05-09 08:00"} , // 任务截止时间
-          taskRemind:30// 任务提醒时间，单位分钟0：不提醒；15：提前15分钟；60：提前1个小时；180：提前3个小时；1440：提前一天；
-        },
+        bizType :0,
         onSuccess: function () {
           alert('ding success')
         },
-        onFail: function (err) {
-          alert('fail', JSON.stringify(err))
+        onFail: function (errorMessage) {
+          alert('fail', JSON.stringify(errorMessage))
         }
       })
     })

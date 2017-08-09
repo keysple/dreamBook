@@ -45,8 +45,8 @@
          }*/
         this.$ajax.get(Host + '/app/recommend', {
           params: {
-          /*  userid: this.$store.state.userinfo[0].userid,*/
-          userid:'091208124330965749',
+            userid: this.$store.state.userinfo[0].userid,
+         /* userid:'091208124330965749',*/
             userType: usertype,
           }
         }).then(

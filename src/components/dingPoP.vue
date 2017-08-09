@@ -32,6 +32,7 @@
         bottomPopup: false,
         value: '',
         recMes: '',
+        Users:[]
       }
     },
     methods: {
@@ -48,21 +49,25 @@
         dingweb.getAuth().then(function (response) {
           var corpId = response.data.corpId;
           dingweb.getDepartments(corpId).then(function (result) {
-            var users = [];
+              debugger
+              const self=this;
             for (var i = 0; i < result.users.length; i++) {
-              users.push(result.users[i].emplId);
+              self.Users.push(result.users[i].emplId);
+              /* alert(result.users[i].emplId)*/
             }
+            alert(self.Users)
+         /*   alert(self.users[0]);*/
             document.getElementById('ding').addEventListener("click", this.postDing(users, corpId), false);
           })
         })
       },
-      postDing(users){
-        dingweb.POSTDing(users);
-        var Config = {
+      postDing(users,corpId){
+        dingweb.POSTDing(users,corpId);
+/*        var Config = {
           method: "post",
           url: Host + '/app/recommend',
           data: {
-            /*userid: this.$store.state.userinfo[0].userid,*/
+            /!*userid: this.$store.state.userinfo[0].userid,*!/
             userid:'091208124330965749',
             bookid: this.book.bookid,
             msg: this.recMes,
@@ -73,7 +78,7 @@
 
         }).catch(function (error) {
 
-        })
+        })*/
       }
     },
   }

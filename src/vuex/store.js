@@ -1,7 +1,6 @@
 /**
  * Created by 13006 on 2017/7/13.
  */
-"use strict";
 import Vue from 'vue'
 import  Vuex from  'vuex'
 const store = new Vuex.Store({

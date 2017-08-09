@@ -14,6 +14,7 @@
 </template>
 <script>
   import {Host, Static} from '../util/host'
+  import bus from '../util/bus'
   export default{
     name: 'popcontent',
     props: {
@@ -38,13 +39,14 @@
         this.multiLineInputErrorText = isOverflow ? '超过啦！！！！' : ''
       },
       postComment(){
+        const self = this;
         var Config = {
           method: "put",
           url: Host + '/app/book/comment',
           params: {
             bookid: this.Mes,
-            /* reviewer: this.$store.state.userinfo[0].name,*/
-            reviewer: 'bbb',
+             reviewer: this.$store.state.userinfo[0].name,
+           /* reviewer: 'bbb',*/
             content: this.content,
             reply: this.reply,
           },
@@ -54,9 +56,10 @@
         }
         else {
           this.$ajax(Config).then(function (response) {
-            this.bottomPopup = false
+            self.bottomPopup = false;
+          bus.$emit('refresh');
           }).catch(function (error) {
-            console.log(JSON.stringify(error))
+            console.log('error',JSON.stringify(error))
           });
         }
       },

@@ -26,7 +26,6 @@
             </tr>
           </table>
         </div>
-
       </div>
       <mu-divider/>
     </div>
@@ -35,6 +34,7 @@
 <script>
   import {Host,Static} from '../util/host'
   import Popcontent from "./popContent";
+  import bus from '../util/bus'
   export default{
     name: 'bookComments',
     props:{
@@ -51,6 +51,7 @@
     },
     mounted: function () {
       this.getCommentList();
+      bus.$on('refresh',this.getCommentList)
     },
     methods: {
       openPop(id){
