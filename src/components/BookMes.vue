@@ -30,8 +30,8 @@
         <mu-card-actions>
           <mu-raised-button label="加入书架" @click="addBookCase" class="demo-raised-button" primary/>
           <mu-raised-button label="马上阅读" @click="toPdf" class="demo-raised-button" primary/>
-          <vueshowpdf @closepdf="closepdf" v-model="isshowpdf" :pdfurl="pdfurls" @pdferr="pdferr" :maxscale='4'
-                      :minscale='0.6' :scale='1.1'></vueshowpdf>
+        <!--  <vueshowpdf @closepdf="closepdf" v-model="isshowpdf" :pdfurl="pdfurls" @pdferr="pdferr" :maxscale='4'
+                      :minscale='0.6' :scale='1.1'></vueshowpdf>-->
         </mu-card-actions>
       </mu-flexbox-item>
       <mu-flexbox-item order="3" class="mt8">
@@ -52,14 +52,14 @@
   import BookComments from "./bookComments";
   import Popcontent from "./popContent";
   import DingPopUp from "./dingPoP";
-  import vueshowpdf from 'vueshowpdf'
+/*  import vueshowpdf from 'vueshowpdf'*/
   import {Host, Static} from '../util/host'
   export default {
     components: {
       DingPopUp,
       Popcontent,
       BookComments,
-      vueshowpdf
+    /*  vueshowpdf*/
     },
     name: 'BookMes',
     data(){
@@ -71,17 +71,17 @@
         bossRec: false,
         userinfo: this.$store.state.userinfo[0],
         bookCover: Host + Static,
-        pdfurls: '//cdn.mozilla.net/pdfjs/tracemonkey.pdf',
-        isshowpdf: false
+   /*     pdfurls: '//cdn.mozilla.net/pdfjs/tracemonkey.pdf',
+        isshowpdf: false*/
       }
     },
     created: function () {
       this.getBookMesById();
     },
     methods: {
-      closepdf(){
+  /*    closepdf(){
         this.isshowpdf = false
-      },
+      },*/
       pdferr(errurl) {
         console.log(errurl);
       },
@@ -128,9 +128,9 @@
       toArticle(bookid, catalogid){
         this.$router.push({name: 'BookViewer', params: {bookid: bookid, catalogid: catalogid}})
       },
-      toPdf(){
+/*      toPdf(){
         this.isshowpdf = true;
-      },
+      },*/
     }
   }
 </script>

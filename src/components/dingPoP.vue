@@ -21,6 +21,7 @@
   </div>
 </template>
 <script>
+  import {Host, Static} from '../util/host'
   import dingweb from '../util/dd'
   export default {
     name: 'dingPopUp',
@@ -32,7 +33,8 @@
         bottomPopup: false,
         value: '',
         recMes: '',
-        Users:[]
+        Users: [],
+        corpId: ''
       }
     },
     methods: {
@@ -46,39 +48,58 @@
         this.multiLineInputErrorText = isOverflow ? '超过啦！！！！' : ''
       },
       chooseDep(){
+        const self = this;
         dingweb.getAuth().then(function (response) {
+          self.$set(self, 'corpId', response.data.corpId);
           var corpId = response.data.corpId;
-          dingweb.getDepartments(corpId).then(function (result) {
-              debugger
-              const self=this;
-            for (var i = 0; i < result.users.length; i++) {
-              self.Users.push(result.users[i].emplId);
-              /* alert(result.users[i].emplId)*/
-            }
-            alert(self.Users)
-         /*   alert(self.users[0]);*/
-            document.getElementById('ding').addEventListener("click", this.postDing(users, corpId), false);
-          })
+          dingweb.getDepartments(corpId).then(function (data) {
+            self.$set(self, 'Users', data)
+          });
         })
       },
-      postDing(users,corpId){
-        dingweb.POSTDing(users,corpId);
-/*        var Config = {
-          method: "post",
+      postDing(){
+        var Config = {
+          method: "put",
           url: Host + '/app/recommend',
-          data: {
-            /!*userid: this.$store.state.userinfo[0].userid,*!/
-            userid:'091208124330965749',
+          params: {
+            userid: '091208124330965749',
             bookid: this.book.bookid,
             msg: this.recMes,
-            userids: users
+            userids: ['091208124330965749']
           },
         };
+        alert(JSON.stringify(Config.params));
         this.$ajax(Config).then(function (response) {
-
+          console.log(response.data);
         }).catch(function (error) {
-
-        })*/
+          console.log(JSON.stringify(error))
+        })
+/*
+        const self = this;
+        this.bottomPopup = false;
+        const usersID = [];
+        for (var i = 0; i < this.Users.length; i++) {
+          usersID.push(this.Users[i].emplId);
+        }
+        dingweb.POSTDing(this.corpId, this.recMes, usersID).then(function () {
+          var Config = {
+            method: "put",
+            url: Host + '/app/recommend',
+            params: {
+              userid: self.$store.state.userinfo[0].userid,
+              bookid: self.book.bookid,
+              msg: self.recMes,
+              userids: usersID
+            },
+          };
+          alert(JSON.stringify(Config.params));
+          self.$ajax(Config).then(function (response) {
+            console.log(response.data);
+          }).catch(function (error) {
+            console.log(JSON.stringify(error))
+          })
+        });
+*/
       }
     },
   }

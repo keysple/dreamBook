@@ -49,10 +49,13 @@
         this.bottomNav = val;
       },
       AuthConfig(){
+          alert('dddd')
         const self = this;
           dingWEB.authCode().then(function (result) {
+              alert('getCode')
             const code = result.code;
             dingWEB.getUserId(code).then(function (response) {
+                alert('get Id')
               var result = response.data;
               self.$store.dispatch("addInfo", result)
             });
