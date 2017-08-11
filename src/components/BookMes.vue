@@ -6,7 +6,7 @@
           <img :src="bookCover+BookMes.cover"/>
         </mu-paper>
         <mu-card-text class="demo-span"><span>{{BookMes.name}}</span><br/><span>{{BookMes.auth}}</span></mu-card-text>
-        <mu-flat-button label="Boss推荐" class="demo-flat-button mb10"  primary @click="popDing">
+        <mu-flat-button label="Boss推荐" class="demo-flat-button mb10" v-if="this.userinfo.isAdmin === true" primary @click="popDing">
           <!--v-if="this.userinfo.isAdmin === true"-->
           <i class="material-icons">thumb_up</i>
         </mu-flat-button>
@@ -29,7 +29,7 @@
       <mu-flexbox-item order="4" class="mt8">
         <mu-card-actions>
           <mu-raised-button label="加入书架" @click="addBookCase" class="demo-raised-button" primary/>
-          <mu-raised-button label="马上阅读" @click="toPdf" class="demo-raised-button" primary/>
+          <mu-raised-button label="马上阅读" @click="toArticle(bookid, catalogid)" class="demo-raised-button" primary/>
         <!--  <vueshowpdf @closepdf="closepdf" v-model="isshowpdf" :pdfurl="pdfurls" @pdferr="pdferr" :maxscale='4'
                       :minscale='0.6' :scale='1.1'></vueshowpdf>-->
         </mu-card-actions>

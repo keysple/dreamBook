@@ -1,9 +1,9 @@
 <template>
   <div>
     <mu-card v-for="recommend, index in recommendList" :key="index">
-      <mu-flexbox >
+      <mu-flexbox v-if="usertype=='employee'">
         <mu-flexbox-item>
-          <mu-card-header class="mt8" :title="recommend.bossName"><!--少添加了subtitle-->
+          <mu-card-header class="mt8" :title="recommend.bossName" ><!--少添加了subtitle-->
             <mu-avatar slot="avatar" :src="recommend.bossAvatar"></mu-avatar>
           </mu-card-header>
         </mu-flexbox-item>
@@ -14,7 +14,13 @@
           <div class="bookimg"><img :src="bookCover+recommend.cover"/></div>
           <div class="bookmes"><p><strong>[{{recommend.auth}}]</strong> <span>{{recommend.name}}</span></p></div>
         </div>
-        <!-- <mu-flat-button label="阅读人数" class="demo-flat-button" primary/>-->
+      </mu-card-text>
+      <mu-card-text class="btjr" v-if="usertype=='boss'">
+       <span>被推荐人:</span>
+        <span v-for="btjrList,index in recommend.btjr" key="index" >
+           <mu-avatar slot="avatar" :src="btjrList.avatar"></mu-avatar>
+          {{btjrList.username}}
+        </span>
       </mu-card-text>
     </mu-card>
   </div>
@@ -31,7 +37,8 @@
       return {
         recommendList: [],
         userType: '',
-        bookCover: Host + Static
+        bookCover: Host + Static,
+        usertype: ''
       }
     },
     mounted: function () {
@@ -39,15 +46,15 @@
     },
     methods: {
       getRecommendList(){
-          var usertype='employee';
-        /*     if(this.$store.state.userinfo[0].isAdmin){
-         usertype='boss';
-         }*/
+        if (this.$store.state.userinfo[0].isAdmin) {
+          this.usertype = 'boss';
+        }else {
+            this.usertype= 'employee'
+        }
         this.$ajax.get(Host + '/app/recommend', {
           params: {
             userid: this.$store.state.userinfo[0].userid,
-         /* userid:'091208124330965749',*/
-            userType: usertype,
+            userType: this.usertype,
           }
         }).then(
           response => {
@@ -106,6 +113,11 @@
   }
 
   .mt8 {
- padding: 18px 0 0 18px ;
+    padding: 18px 0 0 18px;
+  }
+  .btjr{
+    font-size: 12px;
+    text-align: left;
+    color: #bdbdbd;
   }
 </style>
