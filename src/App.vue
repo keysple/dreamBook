@@ -49,17 +49,15 @@
         this.bottomNav = val;
       },
       AuthConfig(){
-          alert('dddd')
         const self = this;
-          dingWEB.authCode().then(function (result) {
-              alert('getCode')
-            const code = result.code;
-            dingWEB.getUserId(code).then(function (response) {
-                alert('get Id')
-              var result = response.data;
-              self.$store.dispatch("addInfo", result)
-            });
-          })
+        dingWEB.authCode().then(function (result) {
+          console.log(result)
+          const code = result.code;
+          dingWEB.getUserId(code).then(function (response) {
+            var result = response.data;
+            self.$store.dispatch("addInfo", result)
+          });
+        })
       },
       getUserInfo(uid){
         const self = this;

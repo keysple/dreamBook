@@ -27,7 +27,7 @@ export function getAuth() {
         timeStamp: configParams.timeStamp,
         nonceStr: configParams.nonceStr,
         signature: configParams.signature,
-        jsApiList: ['biz.user.get', 'biz.ding.create', 'biz.ding.post', 'biz.contact.choose', 'runtime.permission.requestAuthCode','biz.contact.complexPicker']
+        jsApiList: ['biz.user.get', 'biz.navigation.setTitle', 'biz.ding.create', 'biz.ding.post', 'biz.contact.choose', 'runtime.permission.requestAuthCode', 'biz.contact.complexPicker']
       };
       dd.config(config);
     }).catch(function (error) {
@@ -38,18 +38,15 @@ export function getAuth() {
 export function authCode() {
   return new Promise(function (resolve) {
     dd.ready(function () {
-      alert('enter autoCode')
       dd.runtime.permission.requestAuthCode({
         corpId: "ding5ab588d9b1c9951935c2f4657eb6378f",
-        /*    corpId:corpid,*/
         onSuccess: function (result) {
-          alert(result.code)
           resolve(result)
         },
         onFail: function (err) {
           alert('getCode error' + JSON.stringify(err))
         }
-      });
+      })
     })
   });
 }
@@ -108,7 +105,7 @@ export function getDepartments(corpid) {
         limitTips: "选择人数超过最大限制！", //超过人数限制的提示语可以用这个字段自定义
         isNeedSearch: true, // 是否需要搜索功能
         title: "Boss推荐", // 如果你需要修改选人页面的title，可以在这里赋值
-        local:true, // 是否显示本地联系人，默认false
+        local: true, // 是否显示本地联系人，默认false
         onSuccess: function (data) {
           resolve(data)
         },
@@ -120,7 +117,7 @@ export function getDepartments(corpid) {
     })
   })
 }
-export function POSTDing(corpId,Mes,usersId) {
+export function POSTDing(corpId, Mes, usersId) {
   return new Promise(function (resolve) {
     dd.biz.ding.post({
       users: usersId,//用户列表，工号

@@ -58,38 +58,23 @@
         })
       },
       postDing(){
-        var Config = {
-          method: "put",
-          url: Host + '/app/recommend',
-          params: {
-            userid: '091208124330965749',
-            bookid: this.book.bookid,
-            msg: this.recMes,
-            userids: ['091208124330965749']
-          },
-        };
-        alert(JSON.stringify(Config.params));
-        this.$ajax(Config).then(function (response) {
-          console.log(response.data);
-        }).catch(function (error) {
-          console.log(JSON.stringify(error))
-        })
-/*
         const self = this;
         this.bottomPopup = false;
         const usersID = [];
         for (var i = 0; i < this.Users.length; i++) {
           usersID.push(this.Users[i].emplId);
         }
+        const users= usersID.join(',');
+        console.log(users);
         dingweb.POSTDing(this.corpId, this.recMes, usersID).then(function () {
           var Config = {
-            method: "put",
+            method: "post",
             url: Host + '/app/recommend',
             params: {
-              userid: self.$store.state.userinfo[0].userid,
+              userid:self.$store.state.userinfo[0].userid,
               bookid: self.book.bookid,
               msg: self.recMes,
-              userids: usersID
+              userids: users
             },
           };
           alert(JSON.stringify(Config.params));
@@ -99,7 +84,6 @@
             console.log(JSON.stringify(error))
           })
         });
-*/
       }
     },
   }
