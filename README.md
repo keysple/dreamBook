@@ -2,7 +2,7 @@
 
 > app test
 
-## Build Setup
+## Hello world
 
 ``` bash
 # install dependencies
