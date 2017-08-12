@@ -20,17 +20,18 @@
   </div>
 </template>
 <script>
-  import  dingWEB from  './util/dd'
+  import dingWEB from './util/dd'
+
   export default {
     name: 'app',
-    data () {
+    data() {
       return {
         bottomNav: 'appHome',
         userInfo: '',
         corpId: ''
       }
     },
-    mounted(){
+    mounted() {
       //判断cookie的值
       var corpid, uid;
       uid = document.cookie.split('userid=')[1];
@@ -45,10 +46,10 @@
     },
     methods: {
       //切换底部tab导航
-      handleNavChange(val){
+      handleNavChange(val) {
         this.bottomNav = val;
       },
-      AuthConfig(){
+      AuthConfig() {
         const self = this;
         dingWEB.authCode().then(function (result) {
           console.log(result)
@@ -59,7 +60,7 @@
           });
         })
       },
-      getUserInfo(uid){
+      getUserInfo(uid) {
         const self = this;
         dingWEB.getUserinfoById(uid).then(function (response) {
           var result = response.data;
